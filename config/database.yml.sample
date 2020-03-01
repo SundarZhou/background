@@ -51,5 +51,5 @@ test:
 production:
   <<: *default
   database: background_production
-  username: background
+  username: root
   password: <%= ENV['BACKGROUND_DATABASE_PASSWORD'] %>
