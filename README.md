@@ -7,7 +7,7 @@ cp config/secrets.yml.sample config/secrets.yml
 bundle install --without production
 
 rake db:migrate
-rake create:system_user
+rake default:system_user
 rails s
 
 ```
