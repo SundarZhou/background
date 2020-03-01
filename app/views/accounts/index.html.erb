@@ -59,7 +59,7 @@
           </label>
         </td>
         <td><%= account.phone %></td>
-        <td><%= account.password %></td>
+        <td class="hidden_text"><%= account.password %></td>
         <td class="hidden_text" title="<%= account.token %>"><%= account.token %></td>
         <% if account.is_export %>
           <td class="text-danger">已导出</td>

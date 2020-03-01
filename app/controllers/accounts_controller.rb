@@ -3,7 +3,7 @@ class AccountsController < ApplicationController
   before_action :find_account, only: [ :edit, :update,:destroy]
   skip_before_action :authenticate_user!, :only => :import_data
   def index
-    @accounts = Account.all
+    @accounts = params[:is_normal].present? ?  Account.unnormal : Account.normal
   end
 
   def destroy
@@ -38,8 +38,9 @@ class AccountsController < ApplicationController
     password = params[:password]
     token = params[:token]
     time = params[:time]
-    link = params[:link]
-    @account = Account.new(phone: phone, password: password, token: token, time: time, link: link)
+    operator = params[:operator]
+    is_normal = params[:is_normal]
+    @account = Account.new(phone: phone, password: password, token: token, time: time, operator: operator)
     rep = if @account.save
             { code: 200, message: "导入成功！"}
           else
