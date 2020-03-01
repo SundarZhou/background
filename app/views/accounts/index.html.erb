@@ -69,7 +69,7 @@
         <td><%= account.operator %></td>
         <td><%= account.time %></td>
         <td>
-          <%= link_to '删除', account_path(account), class: 'btn btn-danger', data:{confirm: '确定删除吗?'}, method: :delete %>
+          <%= link_to '删除', account_path(account.id, is_normal: params[:is_normal]), class: 'btn btn-danger', data:{confirm: '确定删除吗?'}, method: :delete %>
         </td>
 
       </tr>

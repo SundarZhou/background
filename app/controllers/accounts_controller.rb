@@ -8,7 +8,7 @@ class AccountsController < ApplicationController
 
   def destroy
     @account.destroy
-    redirect_to accounts_path, notice:"成功删除!"
+    redirect_to accounts_path(is_normal: params[:is_normal]), notice:"成功删除!"
   end
 
   # def update
