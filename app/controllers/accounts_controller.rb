@@ -40,7 +40,7 @@ class AccountsController < ApplicationController
     time = params[:time]
     operator = params[:operator]
     is_normal = params[:is_normal]
-    @account = Account.new(phone: phone, password: password, token: token, time: time, operator: operator)
+    @account = Account.new(phone: phone, password: password, token: token, time: time, operator: operator, is_normal: is_normal)
     rep = if @account.save
             { code: 200, message: "导入成功！"}
           else
