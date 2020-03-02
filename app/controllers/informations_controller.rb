@@ -18,7 +18,6 @@ class InformationsController < ApplicationController
         datas = []
         File.open(file.path).each do |line|
           account, link = line.split("----")
-          binding.pry
           datas << {account: account, link: link.chomp} if account.present? && link.present?
         end
         if datas.present?
