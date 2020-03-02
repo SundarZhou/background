@@ -23,7 +23,7 @@
 
         <span> / </span>
 
-        <%= link_to download_path(format: :xlsx), id: 'download', target: '_blank' do %>
+        <%= link_to download_path, id: 'download', target: '_blank' do %>
           <i class="glyphicon glyphicon-download-alt text-primary"> </i>导出
         <% end %>
 
@@ -112,7 +112,7 @@
     });
 
     if (account_ids.length > 0) {
-      $("#download").attr("href", "download.xlsx?account_ids="+account_ids)
+      $("#download").attr("href", "download?account_ids="+account_ids)
       setTimeout(function(){
         window.location.reload()
       },2000);

@@ -25,6 +25,7 @@ class AccountsController < ApplicationController
     output = ''
     @accounts.pluck(:phone, :password, :token, :link, :time).each do |account|
       output << account.join("----")
+      output << "\n"
     end
     send_data(output, :filename => "accounts-#{Time.now.strftime('%Y-%m-%d-%H-%M')}.txt",:type => 'text; charset=utf-8')
     # respond_to do |format|
