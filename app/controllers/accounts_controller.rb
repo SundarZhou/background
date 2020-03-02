@@ -22,9 +22,14 @@ class AccountsController < ApplicationController
     @accounts = Account.where(id: params[:account_ids].split(","))
 
     @accounts.update_all(is_export: true)
-    respond_to do |format|
-       format.xlsx {render xlsx: 'download',filename: "accounts#{Time.now.strftime("%Y-%m-%d %H:%M:%S") }.xlsx"}
+    output = ''
+    @accounts.pluck(:phone, :password, :token, :link, :time).each do |account|
+      output << account.join("----")
     end
+    send_data(output, :filename => "accounts-#{Time.now.strftime('%Y-%m-%d-%H-%M')}.txt",:type => 'text; charset=utf-8')
+    # respond_to do |format|
+    #    format.xlsx {render xlsx: 'download',filename: "accounts#{Time.now.strftime("%Y-%m-%d %H:%M:%S") }.xlsx"}
+    # end
   end
 
   def batch_destroy
