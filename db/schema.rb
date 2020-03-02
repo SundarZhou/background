@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_01_082153) do
+ActiveRecord::Schema.define(version: 2020_03_02_105608) do
 
   create_table "accounts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "phone", null: false
@@ -20,6 +20,14 @@ ActiveRecord::Schema.define(version: 2020_03_01_082153) do
     t.boolean "is_normal", default: true, null: false
     t.string "time"
     t.string "operator"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "information", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "account"
+    t.string "link"
+    t.integer "is_use", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

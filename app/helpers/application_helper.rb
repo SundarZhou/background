@@ -27,6 +27,7 @@ module ApplicationHelper
     nav_html = %Q[
       <li class="#{'active' if controller_name == 'dashboard'}">#{link_to '控制面板', root_path}</li>
       <li class="#{'active' if controller_name == 'accounts'}">#{link_to '帐号列表', accounts_path}</li>
+      <li class="#{'active' if controller_name == 'informations'}">#{link_to '导入数据', informations_path}</li>
     ]
 
     nav_html
@@ -37,6 +38,10 @@ module ApplicationHelper
       nav_html = %Q[
         <li class="#{'active' if controller_name == 'accounts' && ( params[:is_normal].nil? ||  params[:is_normal] == "true" ) }">#{link_to "正常帐号", accounts_path}</li>
         <li class="#{'active' if controller_name == 'accounts' && ( params[:is_normal].present? ||  params[:is_normal] == "false" )}">#{link_to "不正常帐号", accounts_path(is_normal: false)}</li>
+      ]
+    elsif controller_name == 'informations'
+      nav_html = %Q[
+        <li class="#{'active' if controller_name == 'informations'}">#{link_to "导入数据", informations_path}</li>
       ]
     else controller_name == 'dashboard'
       nav_html = %Q[
