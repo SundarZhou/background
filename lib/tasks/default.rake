@@ -9,7 +9,7 @@ namespace :default do
     # create User.
     if User.count == 0
       password = [*'a'..'z',*'0'..'9'].sample(8).join
-      user = User.create(email: 'root_account@gmail.com', password: '123123123')
+      user = User.create(email: "admin_#{password}@gmail.com", password: password)
 
       puts "account is #{user.email} #{user.password}"
       # UserMailer.welcome(user, password).deliver
