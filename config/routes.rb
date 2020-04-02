@@ -9,6 +9,7 @@ Rails.application.routes.draw do
     get "download" => 'accounts#download'
     get "download_abnormals" => 'abnormals#download'
     get "batch_destroy" => 'accounts#batch_destroy'
+    get "batch_destroy_ab" => 'abnormals#batch_destroy'
     get "destroy_informations" => 'informations#batch_destroy'
     get "batch_update" => 'informations#batch_update'
     resources :accounts
