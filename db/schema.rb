@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_02_144801) do
+ActiveRecord::Schema.define(version: 2020_04_17_155558) do
 
   create_table "abnormals", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "phone", null: false
@@ -35,6 +35,13 @@ ActiveRecord::Schema.define(version: 2020_04_02_144801) do
   create_table "information", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "account"
     t.string "link"
+    t.integer "is_use", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "platforms", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.text "data"
     t.integer "is_use", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

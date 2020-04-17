@@ -15,9 +15,15 @@ Rails.application.routes.draw do
     resources :accounts
     resources :informations
     resources :abnormals
+    resources :platforms
+    get "destroy_platforms" => 'platforms#batch_destroy'
+    get "batch_update_platforms" => 'platforms#batch_update'
   end
   get "import_data" => 'accounts#import_data'
   get "get_data" => "informations#get_data"
   get "update_data" => "informations#update_data"
   get "import_abnormal" => "abnormals#import"
+
+  get "get_platform" => "platforms#get_data"
+  get "update_platform" => "platforms#update_data"
 end
