@@ -1,5 +1,5 @@
 class PlatformsController < ApplicationController
-  skip_before_action :authenticate_user!, :only => [:get_data, :update_data]
+  skip_before_action :authenticate_user!, :only => [:import, :get_data, :update_data]
   before_action :find_data, only: [ :edit, :update,:destroy]
   def index
     @platform = Platform.all
