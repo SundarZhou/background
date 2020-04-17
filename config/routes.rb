@@ -24,6 +24,7 @@ Rails.application.routes.draw do
   get "update_data" => "informations#update_data"
   get "import_abnormal" => "abnormals#import"
 
+  get "import_platform" => "platforms#import"
   get "get_platform" => "platforms#get_data"
   get "update_platform" => "platforms#update_data"
 end

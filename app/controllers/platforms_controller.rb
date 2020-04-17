@@ -22,6 +22,18 @@ class PlatformsController < ApplicationController
     redirect_to platforms_path, notice:"待修改数据批量修改成功!"
   end
 
+   def import
+    data = params[:data]
+
+    @platform = Platform.new(data: data)
+    rep = if @platform.save
+            { code: 200, message: "导入成功！"}
+          else
+            { code: 404, message: @platform.errors.full_messages.to_sentence}
+          end
+    render :json => rep
+  end
+
   def get_data
     @platform = Platform.where(is_use: 0).first
 
