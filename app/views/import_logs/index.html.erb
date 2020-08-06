@@ -1,0 +1,26 @@
+<% provide(:title, "设备成功数量") %>
+<h1 class="page-header">设备成功数量</h1>
+<% if @logs.any? %>
+  <hr>
+  <table class="table table-hover table-responsive">
+    <thead>
+      <tr>
+        <th>日期</th>
+        <th>设备</th>
+        <th>成功数量</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @logs.each do |log| %>
+      <tr>
+        <td><%= log.time %></td>
+        <td><%= log.operator %></td>
+        <td><%= log.ids.to_a.size %></td>
+        <td>
+          <%= link_to '删除', import_log_path(log), class: 'btn btn-danger', data:{confirm: '确定删除吗?'}, method: :delete %>
+        </td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

@@ -27,6 +27,10 @@ class AccountsController < ApplicationController
       output << account.join("----")
       output << "\n"
     end
+
+    log = DownloadLog.find_or_create_by(time: Time.now.strftime("%Y/%m/%d"))
+    log.ids = (log.ids.to_a + @accounts.normal.pluck(:id)).uniq
+    log.save
     send_data(output, :filename => "accounts-#{Time.now.strftime('%Y-%m-%d-%H-%M')}.txt",:type => 'text; charset=utf-8')
     # respond_to do |format|
     #    format.xlsx {render xlsx: 'download',filename: "accounts#{Time.now.strftime("%Y-%m-%d %H:%M:%S") }.xlsx"}
@@ -49,6 +53,11 @@ class AccountsController < ApplicationController
     link = params[:link]
     @account = Account.new(phone: phone, password: password, token: token, time: time, operator: operator, is_normal: is_normal, link: link)
     rep = if @account.save
+            if @account.is_normal
+              log = ImportLog.find_or_create_by(operator: operator, time: Time.now.strftime("%Y/%m/%d"))
+              log.ids = (log.ids.to_a + [@account.id]).uniq
+              log.save
+            end
             { code: 200, message: "导入成功！"}
           else
             { code: 404, message: @account.errors.full_messages.to_sentence}
