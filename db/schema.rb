@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_06_114403) do
+ActiveRecord::Schema.define(version: 2020_08_12_045026) do
 
   create_table "abnormals", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "phone", null: false
@@ -34,14 +34,14 @@ ActiveRecord::Schema.define(version: 2020_08_06_114403) do
 
   create_table "download_logs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "time"
-    t.string "ids"
+    t.text "ids", limit: 16777215
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "import_logs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "time"
-    t.string "ids"
+    t.text "ids", limit: 16777215
     t.string "operator"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
