@@ -38,6 +38,8 @@ class AccountsController < ApplicationController
     file = File.open(path, 'a')
     file.write(output)
 
+    file.close
+
     log = DownloadLog.find_or_create_by(time: Time.now.strftime("%Y/%m/%d"))
     log.ids = (log.ids.to_a + @accounts.normal.pluck(:id)).uniq
     log.save
