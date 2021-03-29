@@ -23,24 +23,48 @@ class AccountsController < ApplicationController
 
     @accounts.update_all(is_export: true)
     output = ''
+
     @accounts.pluck(:phone, :password, :token, :link, :time).each do |account|
       output << account.join("----")
       output << "\n"
     end
+    path = "#{Rails.root}/log/accounts-#{Time.now.strftime('%Y-%m-%d-%H-%M')}.txt"
+    file = File.open(path, 'a')
+    file.write(output)
 
     log = DownloadLog.find_or_create_by(time: Time.now.strftime("%Y/%m/%d"))
     log.ids = (log.ids.to_a + @accounts.normal.pluck(:id)).uniq
     log.save
-    send_data(output, :filename => "accounts-#{Time.now.strftime('%Y-%m-%d-%H-%M')}.txt",:type => 'text; charset=utf-8')
+
+    respond_to do |format|
+      format.json{
+        render json: {
+          path: path
+        }
+      }
+    end
+
+    # send_data(output, :filename => "accounts-#{Time.now.strftime('%Y-%m-%d-%H-%M')}.txt",:type => 'text; charset=utf-8')
     # respond_to do |format|
-    #    format.xlsx {render xlsx: 'download',filename: "accounts#{Time.now.strftime("%Y-%m-%d %H:%M:%S") }.xlsx"}
+    #    format.json {render xlsx: 'download',filename: "accounts#{Time.now.strftime("%Y-%m-%d %H:%M:%S") }.xlsx"}
     # end
+  end
+
+  def get_file
+    path = params["path"]
+    send_file(path)
   end
 
   def batch_destroy
     @accounts = Account.where(id: params[:account_ids].split(","))
     @accounts.destroy_all
-    redirect_to accounts_path, notice:"批量删除成功!"
+    respond_to do |format|
+      format.json{
+        render json: {
+          message: "成功"
+        }
+      }
+    end
   end
 
   def import_data

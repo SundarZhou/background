@@ -5,26 +5,30 @@
   <div class="row-fluid">
     <div class="span6">
       <p>
-        <%= link_to 'javascript::void(0);', :data => {:toggle => :checkboxes, :action => :check, :range => 'true'} do %>
+        <%= link_to 'javascript::void(0)', :data => {:toggle => :checkboxes, :action => :check, :range => 'true'} do %>
           <i class="glyphicon glyphicon-ok text-success"> </i>全选
         <% end %>
 
         <span> / </span>
 
-        <%= link_to 'javascript::void(0);', :data => {:toggle => :checkboxes, :action => :uncheck, :range => 'true'} do %>
+        <%= link_to 'javascript::void(0)', :data => {:toggle => :checkboxes, :action => :uncheck, :range => 'true'} do %>
           <i class="glyphicon glyphicon-remove text-danger"> </i>全不选
         <% end %>
 
         <span> / </span>
 
-        <%= link_to 'javascript::void(0);', :data => {:toggle => :checkboxes, :action => :toggle, :range => 'true'} do %>
+        <%= link_to 'javascript::void(0)', :data => {:toggle => :checkboxes, :action => :toggle, :range => 'true'} do %>
           <i class="glyphicon glyphicon-refresh text-warning"> </i>反选
         <% end %>
 
         <span> / </span>
 
-        <%= link_to download_path, id: 'download', target: '_blank' do %>
+        <%= link_to 'javascript:void(0)', id: 'download' do %>
           <i class="glyphicon glyphicon-download-alt text-primary"> </i>导出
+        <% end %>
+
+        <%= link_to "javascript:void(0)", id: 'downloads', target: '_blank', class: "hide"  do %>
+          <i class="glyphicon glyphicon-download-alt text-primary"> </i>导出？
         <% end %>
 
         <span> / </span>
@@ -110,15 +114,27 @@
     $.each($('.account-checkbox:checked'), function () {
       account_ids.push($(this).val());
     });
-
     if (account_ids.length > 0) {
-      $("#download").attr("href", "download?account_ids="+account_ids)
-      setTimeout(function(){
-        window.location.reload()
-      },2000);
+      $.ajax({
+        url: "download",
+        method: 'POST',
+        dataType: 'json',
+        data: {account_ids: account_ids},
+        success: function(res) {
+          $("#downloads").attr("href", "get_file?path=" + res.path)
+          $("#downloads").append("<span></span>");
+          $("#downloads span").click();
+          $("#downloads").click()
+          setTimeout(function(){
+            window.location.reload()
+          },2000);
+        },
+        error: function(error) {
+          alert(error);
+        }
+      })
     } else {
       alert('你没有勾选任何帐号!');
-      $("#download").attr("href", "#")
     }
   });
   $("#batch_destroy").click(function () {
@@ -128,10 +144,20 @@
     });
 
     if (account_ids.length > 0) {
-      $("#batch_destroy").attr("href", "batch_destroy?account_ids="+account_ids)
-      setTimeout(function(){
-        window.location.reload()
-      },2000);
+      $.ajax({
+        url: "batch_destroy",
+        method: 'POST',
+        dataType: 'json',
+        data: {account_ids: account_ids},
+        success: function(res) {
+          setTimeout(function(){
+            window.location.reload()
+          },2000);
+        },
+        error: function(error) {
+          alert(error);
+        }
+      })
     } else {
       alert('你没有勾选任何帐号!');
       $("#batch_destroy").attr("href", "#")
