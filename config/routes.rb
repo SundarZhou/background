@@ -20,6 +20,7 @@ Rails.application.routes.draw do
     get "destroy_platforms" => 'platforms#batch_destroy'
     get "batch_update_platforms" => 'platforms#batch_update'
     resources :download_logs, :import_logs
+    get "delete_success" => "informations#delete_success"
   end
   get "import_data" => 'accounts#import_data'
   get "get_data" => "informations#get_data"

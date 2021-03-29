@@ -3,7 +3,13 @@ class AccountsController < ApplicationController
   before_action :find_account, only: [ :edit, :update,:destroy]
   skip_before_action :authenticate_user!, :only => :import_data
   def index
-    @accounts = params[:is_normal].present? ?  Account.unnormal : Account.normal
+    @accounts = if params[:is_meng_gu].present?
+                  Account.is_meng_gu
+                elsif params[:is_normal].present?
+                  Account.unnormal
+                else
+                  Account.normal
+                end
   end
 
   def destroy

@@ -59,6 +59,12 @@ class InformationsController < ApplicationController
     redirect_to informations_path, notice:"待修改数据批量修改成功!"
   end
 
+  def delete_success
+    Information.where(is_use: 2).destroy_all
+    Information.update(is_use: 1)
+    redirect_to informations_path, notice:"批量操作成功!"
+  end
+
   def get_data
     @information = Information.where(is_use: false).first
 
