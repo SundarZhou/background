@@ -81,7 +81,8 @@ class AccountsController < ApplicationController
     operator = params[:operator]
     is_normal = params[:is_normal]
     link = params[:link]
-    @account = Account.new(phone: phone, password: password, token: token, time: time, operator: operator, is_normal: is_normal, link: link)
+    is_meng_gu = params[:is_meng_gu]
+    @account = Account.new(phone: phone, password: password, token: token, time: time, operator: operator, is_normal: is_normal, link: link, is_meng_gu: is_meng_gu)
     rep = if @account.save
             if @account.is_normal
               log = ImportLog.find_or_create_by(operator: operator, time: Time.now.strftime("%Y/%m/%d"))
