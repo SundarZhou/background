@@ -34,7 +34,7 @@ class AccountsController < ApplicationController
       output << account.join("----")
       output << "\n"
     end
-    path = "#{Rails.root}/log/accounts-#{Time.now.strftime('%Y-%m-%d-%H-%M')}.txt"
+    path = "#{Rails.root}/log/accounts-#{Time.now.strftime('%Y-%m-%d-%H-%M-%S')}.txt"
     file = File.open(path, 'a')
     file.write(output)
 
