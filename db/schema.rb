@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_29_132001) do
+ActiveRecord::Schema.define(version: 2021_03_31_131924) do
 
   create_table "abnormals", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "phone", null: false
@@ -38,6 +38,7 @@ ActiveRecord::Schema.define(version: 2021_03_29_132001) do
     t.text "ids", limit: 16777215
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "is_meng_gu", default: false
   end
 
   create_table "import_logs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -69,6 +70,7 @@ ActiveRecord::Schema.define(version: 2021_03_29_132001) do
     t.string "domain_name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "switch", default: true
   end
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|

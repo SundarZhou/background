@@ -1,7 +1,16 @@
 <% provide(:title, "导入数据") %>
 <h1 class="page-header">导入数据</h1>
 <div class="table-responsive">
-  <%= link_to '导入数据', new_information_path, class: 'btn btn-success' %>
+  <%= link_to '导入数据', new_information_path, class: 'btn btn-success floatLeft' %>
+
+  <div class="testswitch">
+    <input class="testswitch-checkbox" id="onoffswitch" type="checkbox" data-checked="<%= Setting.first.switch %>" >
+    <label class="testswitch-label" for="onoffswitch">
+      <span class="testswitch-inner" data-on="ON" data-off="OFF"></span>
+      <span class="testswitch-switch"></span>
+    </label>
+  </div>
+  <h4 class="tips">当前不能获取数据</h4>
 </div>
 <hr>
 <% if @informations.any? %>
@@ -143,5 +152,26 @@
       $("#batch").attr("href", "#")
     }
   });
+
+$(document).ready(function() {
+  if($("#onoffswitch").data("checked")){
+    $("#onoffswitch").prop('checked', true)
+    $('.tips').text("当前可以获取数据")
+  }
+  $("#onoffswitch").on('click', function(){
+		clickSwitch()
+    $.get("toggle_switch")
+	});
+
+	var clickSwitch = function() {
+		if ($("#onoffswitch").is(':checked')) {
+			console.log("在ON的状态下");
+      $('.tips').text("当前可以获取数据")
+		} else {
+			console.log("在OFF的状态下");
+      $('.tips').text("当前不可以获取数据")
+		}
+	};
+});
 
 </script>

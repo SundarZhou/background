@@ -69,7 +69,14 @@ class InformationsController < ApplicationController
     @information = Information.where(is_use: false).first
 
     begin
-      rep = if @information.present?
+
+      rep = if !Setting.first.switch
+            {
+              code: 200,
+              data: {status: false},
+              message: "等待开启数据获取"
+            }
+          elsif @information.present?
             @information.update(is_use: 1)
             {
               code: 200,

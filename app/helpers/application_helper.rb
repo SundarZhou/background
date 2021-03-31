@@ -39,7 +39,8 @@ module ApplicationHelper
         <li class="#{'active' if controller_name == 'accounts' && ( (params[:is_normal].nil? ||  params[:is_normal] == "true") && params[:is_meng_gu].nil? ) }">#{link_to "正常帐号", accounts_path}</li>
         <li class="#{'active' if controller_name == 'accounts' && ( params[:is_normal].present? ||  params[:is_normal] == "false" )}">#{link_to "不正常帐号", accounts_path(is_normal: false)}</li>
         <li class="#{'active' if controller_name == 'accounts' && ( params[:is_meng_gu] == "true" ) }">#{link_to "蒙古正常帐号", accounts_path(is_meng_gu: true)}</li>
-        <li class="#{'active' if controller_name == 'download_logs' }">#{link_to "导出数量记录", download_logs_path}</li>
+        <li class="#{'active' if controller_name == 'download_logs' && params[:is_meng_gu].nil? }">#{link_to "导出数量记录", download_logs_path}</li>
+        <li class="#{'active' if controller_name == 'download_logs' && params[:is_meng_gu].present?  }">#{link_to "蒙古导出数量记录", download_logs_path(is_meng_gu: true)}</li>
         <li class="#{'active' if controller_name == 'import_logs' }">#{link_to "设备成功数量", import_logs_path}</li>
       ]
     elsif ['informations', "abnormals", "platforms" ].include? controller_name

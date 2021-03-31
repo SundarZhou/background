@@ -21,6 +21,7 @@ Rails.application.routes.draw do
     get "batch_update_platforms" => 'platforms#batch_update'
     resources :download_logs, :import_logs
     get "delete_success" => "informations#delete_success"
+    get "toggle_switch" => "setting#toggle_switch"
   end
   get "import_data" => 'accounts#import_data'
   get "get_data" => "informations#get_data"

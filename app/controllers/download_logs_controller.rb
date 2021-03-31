@@ -1,6 +1,11 @@
 class DownloadLogsController < ApplicationController
   def index
-    @logs = DownloadLog.order("created_at desc") #.page(params[:page]).per(20)
+    if params[:is_meng_gu].present?
+      @logs = DownloadLog.is_meng_gu.order("created_at desc")
+    else
+      @logs = DownloadLog.default.order("created_at desc")
+    end
+    #.page(params[:page]).per(20)
   end
 
   def destroy

@@ -39,9 +39,9 @@ class AccountsController < ApplicationController
     file.write(output)
 
     file.close
-
-    log = DownloadLog.find_or_create_by(time: Time.now.strftime("%Y/%m/%d"))
-    log.ids = (log.ids.to_a + @accounts.normal.pluck(:id)).uniq
+    log = DownloadLog.find_or_create_by(time: Time.now.strftime("%Y/%m/%d"), is_meng_gu: @accounts.first.is_meng_gu?)
+    ids = log.is_meng_gu? ? @accounts.is_meng_gu.pluck(:id) : @accounts.normal.pluck(:id)
+    log.ids = (log.ids.to_a + ids).uniq
     log.save
 
     respond_to do |format|
