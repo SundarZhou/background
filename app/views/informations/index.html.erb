@@ -143,10 +143,21 @@
     });
 
     if (information_ids.length > 0) {
-      $("#batch").attr("href", "batch_update?information_ids="+information_ids)
-      setTimeout(function(){
-        window.location.reload()
-      },2000);
+      $.ajax({
+        url: "batch_update",
+        method: 'POST',
+        dataType: 'json',
+        data: {information_ids: information_ids},
+        success: function(res) {
+          alert(res.message)
+          setTimeout(function(){
+            window.location.reload()
+          },2000);
+        },
+        error: function(error) {
+          alert(error);
+        }
+      })
     } else {
       alert('你没有勾选任何帐号!');
       $("#batch").attr("href", "#")

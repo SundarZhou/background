@@ -12,7 +12,7 @@ Rails.application.routes.draw do
     post "batch_destroy" => 'accounts#batch_destroy'
     get "batch_destroy_ab" => 'abnormals#batch_destroy'
     get "destroy_informations" => 'informations#batch_destroy'
-    get "batch_update" => 'informations#batch_update'
+    post "batch_update" => 'informations#batch_update'
     resources :accounts
     resources :informations
     resources :abnormals

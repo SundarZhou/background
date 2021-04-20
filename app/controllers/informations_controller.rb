@@ -56,7 +56,14 @@ class InformationsController < ApplicationController
   def batch_update
     @informations = Information.where(id: params[:information_ids].split(",")).where(is_use: 1)
     @informations.update_all(is_use: 0)
-    redirect_to informations_path, notice:"待修改数据批量修改成功!"
+    respond_to do |format|
+      format.json{
+        render json: {
+          message: "待修改数据批量修改成功!"
+        }
+      }
+    end
+    # redirect_to informations_path, notice:"待修改数据批量修改成功!"
   end
 
   def delete_success
