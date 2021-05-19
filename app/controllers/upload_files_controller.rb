@@ -1,6 +1,6 @@
 class UploadFilesController < ApplicationController
   # require 'fileutils'
-  skip_before_action :authenticate_user!, :only => :import
+  skip_before_action :authenticate_user!, :only => :download_file
   before_action :find_account, only: [ :edit, :update,:destroy]
   def index
     @upload_files = UploadFile.all
