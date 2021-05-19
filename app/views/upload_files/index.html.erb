@@ -4,7 +4,7 @@
   <%= link_to '导入文件', new_upload_file_path, class: 'btn btn-success floatLeft' %>
 
   <div class="testswitch">
-    <input class="testswitch-checkbox" id="onoffswitch" type="checkbox" data-checked="<%= Setting.first.switch %>" >
+    <input class="testswitch-checkbox" id="onoffswitch" type="checkbox" data-checked="<%= Setting.first.file_switch %>" >
     <label class="testswitch-label" for="onoffswitch">
       <span class="testswitch-inner" data-on="ON" data-off="OFF"></span>
       <span class="testswitch-switch"></span>
@@ -16,7 +16,7 @@
 
 <% if @upload_files.any? %>
 
-  <h3>数据总量：<%= @upload_files.count %></h3>
+  <h3>文件总量：<%= @upload_files.count %></h3>
   <hr>
   <table class="table table-hover table-responsive">
     <thead>
@@ -38,3 +38,26 @@
     </tbody>
   </table>
 <% end %>
+
+<script>
+  $(document).ready(function() {
+    if($("#onoffswitch").data("checked")){
+      $("#onoffswitch").prop('checked', true)
+      $('.tips').text("当前可以获取数据")
+    }
+    $("#onoffswitch").on('click', function(){
+      clickSwitch()
+      $.get("toggle_file_switch")
+    });
+
+    var clickSwitch = function() {
+      if ($("#onoffswitch").is(':checked')) {
+        console.log("在ON的状态下");
+        $('.tips').text("当前可以获取文件")
+      } else {
+        console.log("在OFF的状态下");
+        $('.tips').text("当前不可以获取文件")
+      }
+    };
+  })
+</script>

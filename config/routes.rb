@@ -22,7 +22,7 @@ Rails.application.routes.draw do
     resources :download_logs, :import_logs
     get "delete_success" => "informations#delete_success"
     get "toggle_switch" => "setting#toggle_switch"
-    get "toggle_file_switch" => "setting#toggle_file_swith"
+    get "toggle_file_switch" => "setting#toggle_file_switch"
     resources :upload_files
   end
   get "import_data" => 'accounts#import_data'
