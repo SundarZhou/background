@@ -7,4 +7,8 @@ class UploadFile < ApplicationRecord
   def link
     "download_file?file_name=#{self.file_name}"
   end
+
+  def links
+    "download_files?file_name=#{self.file_name}"
+  end
 end

@@ -31,12 +31,25 @@ class UploadFilesController < ApplicationController
     end
   end
 
-  def download_file
+  def download_files
     @upload_file = UploadFile.find_by_file_name params[:file_name]
     if @upload_file&.file_path.present?
       send_file(@upload_file.file_path)
     else
       render json: {message: "文件不存在"}
+    end
+  end
+
+  def download_file
+    if Setting.first.file_switch
+      @upload_file = UploadFile.find_by_file_name params[:file_name]
+      if @upload_file&.file_path.present?
+        send_file(@upload_file.file_path)
+      else
+        render json: {message: "文件不存在"}
+      end
+    else
+      render json: {message: "当前不可获取文件"}
     end
   end
 

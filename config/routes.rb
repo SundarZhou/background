@@ -24,6 +24,7 @@ Rails.application.routes.draw do
     get "toggle_switch" => "setting#toggle_switch"
     get "toggle_file_switch" => "setting#toggle_file_switch"
     resources :upload_files
+    get "download_files" => "upload_files#download_files"
   end
   get "import_data" => 'accounts#import_data'
   get "get_data" => "informations#get_data"
