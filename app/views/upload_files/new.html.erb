@@ -1,0 +1,18 @@
+<% provide(:title, '导入文件') %>
+<h1 class="page-header">导入文件</h1>
+
+<div class="bs-example">
+<%= simple_form_for @upload_file, url: upload_files_path, html: {multipart: true, class: 'form'} do |f| %>
+
+<%= render 'shared/error_messages', object: f.object %>
+
+
+  <div class="form-group">
+    <label for="tasks_file">
+    导入文件 <small>（请使用固定文件格式。）</small>
+    </label>
+    <input type="file" name="tasks_file" id="tasks_file" class="form-control">
+  </div>
+  <%= f.submit '导入文件', :class => 'btn btn-success', 'data-disable-with' => '提交中...' %>
+<% end %>
+</div>

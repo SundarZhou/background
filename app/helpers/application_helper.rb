@@ -28,6 +28,7 @@ module ApplicationHelper
       <li class="#{'active' if controller_name == 'dashboard'}">#{link_to '控制面板', root_path}</li>
       <li class="#{'active' if ['accounts', 'download_logs', 'import_logs'].include? controller_name}">#{link_to '帐号列表', accounts_path}</li>
       <li class="#{'active' if  ['informations', "abnormals", "platforms" ].include? controller_name }">#{link_to '导入数据', informations_path}</li>
+      <li class="#{'active' if  ["upload_files" ].include? controller_name }">#{link_to '导入文件', upload_files_path}</li>
     ]
 
     nav_html
@@ -48,6 +49,10 @@ module ApplicationHelper
         <li class="#{'active' if controller_name == 'informations'}">#{link_to "导入数据", informations_path}</li>
         <li class="#{'active' if controller_name == 'abnormals'}">#{link_to "异常号码", abnormals_path}</li>
         <li class="#{'active' if controller_name == 'platforms'}">#{link_to "东帝汶号码", platforms_path}</li>
+      ]
+    elsif ["upload_files"].include? controller_name
+      nav_html = %Q[
+        <li class="#{'active' if controller_name == 'upload_files'}">#{link_to "导入文件", upload_files_path}</li>
       ]
     else controller_name == 'dashboard'
       nav_html = %Q[

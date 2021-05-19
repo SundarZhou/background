@@ -1,0 +1,40 @@
+<% provide(:title, "导入文件") %>
+<h1 class="page-header">导入文件</h1>
+<div class="table-responsive">
+  <%= link_to '导入文件', new_upload_file_path, class: 'btn btn-success floatLeft' %>
+
+  <div class="testswitch">
+    <input class="testswitch-checkbox" id="onoffswitch" type="checkbox" data-checked="<%= Setting.first.switch %>" >
+    <label class="testswitch-label" for="onoffswitch">
+      <span class="testswitch-inner" data-on="ON" data-off="OFF"></span>
+      <span class="testswitch-switch"></span>
+    </label>
+  </div>
+  <h4 class="tips">当前不能获取文件</h4>
+</div>
+<hr>
+
+<% if @upload_files.any? %>
+
+  <h3>数据总量：<%= @upload_files.count %></h3>
+  <hr>
+  <table class="table table-hover table-responsive">
+    <thead>
+      <tr>
+        <th>文件</th>
+        <th>操作</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @upload_files.each do |upload_file| %>
+      <tr>
+        <td><%= upload_file.file_name %></td>
+        <td>
+          <%= link_to '下载', upload_file.link, target: '_blank', class: 'btn btn-info' %>
+        </td>
+
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

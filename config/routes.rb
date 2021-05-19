@@ -22,6 +22,8 @@ Rails.application.routes.draw do
     resources :download_logs, :import_logs
     get "delete_success" => "informations#delete_success"
     get "toggle_switch" => "setting#toggle_switch"
+    get "toggle_file_switch" => "setting#toggle_file_swith"
+    resources :upload_files
   end
   get "import_data" => 'accounts#import_data'
   get "get_data" => "informations#get_data"
@@ -31,4 +33,5 @@ Rails.application.routes.draw do
   get "import_platform" => "platforms#import"
   get "get_platform" => "platforms#get_data"
   get "update_platform" => "platforms#update_data"
+  get "download_file" => "upload_files#download_file"
 end
