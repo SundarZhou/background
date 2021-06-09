@@ -85,7 +85,7 @@ class InformationsController < ApplicationController
 
   def batch_update
     @informations = Information.where(id: params[:information_ids].split(",")).where(is_use: 1)
-    @informations.update_all(is_use: 0)
+    # @informations.update_all(is_use: 0)
     respond_to do |format|
       format.json{
         render json: {
