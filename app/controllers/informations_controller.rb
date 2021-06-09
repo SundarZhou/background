@@ -85,7 +85,7 @@ class InformationsController < ApplicationController
 
   def batch_update
     @informations = Information.where(id: params[:information_ids].split(",")).where(is_use: 1)
-    # @informations.update_all(is_use: 0)
+    @informations.update_all(is_use: 0)
     respond_to do |format|
       format.json{
         render json: {
@@ -98,7 +98,7 @@ class InformationsController < ApplicationController
 
   def delete_success
     Information.where(is_use: 2).destroy_all
-    Information.update(is_use: 1)
+    # Information.update(is_use: 1)
     redirect_to informations_path, notice:"批量操作成功!"
   end
 
