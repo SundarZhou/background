@@ -35,6 +35,16 @@
 
         <span> / </span>
 
+        <%= link_to 'javascript:void(0)', id: 'download' do %>
+          <i class="glyphicon glyphicon-download-alt text-primary"> </i>导出
+        <% end %>
+
+        <%= link_to "javascript:void(0)", id: 'downloads', target: '_blank', class: "hide"  do %>
+          <i class="glyphicon glyphicon-download-alt text-primary"> </i>导出？
+        <% end %>
+
+        <span> / </span>
+
         <%= link_to "#", id: 'batch_destroy' do %>
           <i class="glyphicon glyphicon-trash text-primary"> </i>删除选中
         <% end %>
@@ -118,7 +128,34 @@
     return false;
   });
 
-
+  $("#download").click(function () {
+    var information_ids = [];
+    $.each($('.information-checkbox:checked'), function () {
+      information_ids.push($(this).val());
+    });
+    if (information_ids.length > 0) {
+      $.ajax({
+        url: "information_download",
+        method: 'POST',
+        dataType: 'json',
+        data: {information_ids: information_ids},
+        success: function(res) {
+          $("#downloads").attr("href", "get_file?path=" + res.path)
+          $("#downloads").append("<span></span>");
+          $("#downloads span").click();
+          $("#downloads").click()
+          setTimeout(function(){
+            window.location.reload()
+          },2000);
+        },
+        error: function(error) {
+          alert(error);
+        }
+      })
+    } else {
+      alert('你没有勾选任何帐号!');
+    }
+  });
   $("#batch_destroy").click(function () {
     var information_ids = [];
     $.each($('.information-checkbox:checked'), function () {
@@ -126,10 +163,20 @@
     });
 
     if (information_ids.length > 0) {
-      $("#batch_destroy").attr("href", "destroy_informations?information_ids="+information_ids)
-      setTimeout(function(){
-        window.location.reload()
-      },2000);
+      $.ajax({
+        url: "destroy_informations",
+        method: 'POST',
+        dataType: 'json',
+        data: {information_ids: information_ids},
+        success: function(res) {
+          setTimeout(function(){
+            window.location.reload()
+          },2000);
+        },
+        error: function(error) {
+          alert(error);
+        }
+      })
     } else {
       alert('你没有勾选任何帐号!');
       $("#batch_destroy").attr("href", "#")

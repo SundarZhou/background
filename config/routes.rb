@@ -7,11 +7,12 @@ Rails.application.routes.draw do
     get '/setting' => 'dashboard#edit'
     post '/setting' => 'dashboard#update'
     post "download" => 'accounts#download'
+    post "information_download" => 'informations#information_download'
     get "get_file" => 'accounts#get_file'
     get "download_abnormals" => 'abnormals#download'
     post "batch_destroy" => 'accounts#batch_destroy'
     get "batch_destroy_ab" => 'abnormals#batch_destroy'
-    get "destroy_informations" => 'informations#batch_destroy'
+    post "destroy_informations" => 'informations#batch_destroy'
     post "batch_update" => 'informations#batch_update'
     resources :accounts
     resources :informations

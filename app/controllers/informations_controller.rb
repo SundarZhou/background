@@ -47,10 +47,40 @@ class InformationsController < ApplicationController
     redirect_to informations_path, notice:"成功删除!"
   end
 
+  def information_download
+    @informations = Information.where(id: params[:information_ids].split(","))
+
+    output = ''
+
+    @informations.pluck(:account, :link ).each do |information|
+      output << information.join("----")
+      output << "\n"
+    end
+    path = "#{Rails.root}/log/informations-#{Time.now.strftime('%Y-%m-%d-%H-%M-%S')}.txt"
+    file = File.open(path, 'a')
+    file.write(output)
+
+    file.close
+
+    respond_to do |format|
+      format.json{
+        render json: {
+          path: path
+        }
+      }
+    end
+  end
+
   def batch_destroy
     @informations = Information.where(id: params[:information_ids].split(","))
     @informations.destroy_all
-    redirect_to informations_path, notice:"批量删除成功!"
+    respond_to do |format|
+      format.json{
+        render json: {
+          message: "成功"
+        }
+      }
+    end
   end
 
   def batch_update
