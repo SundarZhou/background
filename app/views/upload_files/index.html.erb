@@ -15,12 +15,47 @@
 <hr>
 
 <% if @upload_files.any? %>
+  <div class="row-fluid">
+    <div class="span6">
+      <p>
+        <%= link_to 'javascript::void(0)', :data => {:toggle => :checkboxes, :action => :check, :range => 'true'} do %>
+          <i class="glyphicon glyphicon-ok text-success"> </i>全选
+        <% end %>
+
+        <span> / </span>
+
+        <%= link_to 'javascript::void(0)', :data => {:toggle => :checkboxes, :action => :uncheck, :range => 'true'} do %>
+          <i class="glyphicon glyphicon-remove text-danger"> </i>全不选
+        <% end %>
+
+        <span> / </span>
+
+        <%= link_to 'javascript::void(0)', :data => {:toggle => :checkboxes, :action => :toggle, :range => 'true'} do %>
+          <i class="glyphicon glyphicon-refresh text-warning"> </i>反选
+        <% end %>
+
+        <span> / </span>
+
+        <%= link_to "javascript:void(0)", id: 'downloads', target: '_blank', class: "hide"  do %>
+          <i class="glyphicon glyphicon-download-alt text-primary"> </i>导出？
+        <% end %>
+
+        <span> / </span>
+
+        <%= link_to "#", id: 'batch_destroy' do %>
+          <i class="glyphicon glyphicon-trash text-primary"> </i>删除选中
+        <% end %>
+      </p>
+    </div>
+  </div>
+  <hr>
 
   <h3>文件总量：<%= @upload_files.count %></h3>
   <hr>
   <table class="table table-hover table-responsive">
     <thead>
       <tr>
+        <th width="2%"></th>
         <th>文件</th>
         <th>操作</th>
       </tr>
@@ -28,9 +63,17 @@
     <tbody>
       <% @upload_files.each do |upload_file| %>
       <tr>
+        <td>
+          <label>
+            <%= check_box_tag "upload_file_ids[#{upload_file.id}]", upload_file.id, false, :class => 'ace ace-checkbox-1 upload-file-checkbox' %>
+            <span class="lbl"> </span>
+          </label>
+        </td>
+
         <td><%= upload_file.file_name %></td>
         <td>
           <%= link_to '下载', upload_file.links, target: '_blank', class: 'btn btn-info' %>
+          <%= link_to '删除', upload_file_path(upload_file.id), class: 'btn btn-danger', data:{confirm: '确定删除吗?'}, method: :delete %>
         </td>
 
       </tr>
@@ -41,6 +84,29 @@
 
 <script>
   $(document).ready(function() {
+    $('[data-toggle=checkboxes][data-action=check]').click(function(e){
+      e.preventDefault();
+      $('.upload-file-checkbox').prop('checked', true)
+      return false;
+    });
+
+    $('[data-toggle=checkboxes][data-action=uncheck]').click(function(e){
+      e.preventDefault();
+      $('.upload-file-checkbox').prop('checked', false)
+      return false;
+    });
+
+    $('[data-toggle=checkboxes][data-action=toggle]').click(function(e){
+      e.preventDefault();
+      var checkboxes = $('.upload-file-checkbox');
+      for(var i = 0; i<checkboxes.length; i++){
+        var status = $(checkboxes[i]).prop('checked');
+        $(checkboxes[i]).prop('checked', !status);
+      }
+      return false;
+    });
+
+
     if($("#onoffswitch").data("checked")){
       $("#onoffswitch").prop('checked', true)
       $('.tips').text("当前可以获取文件")
@@ -59,5 +125,33 @@
         $('.tips').text("当前不可以获取文件")
       }
     };
+
+    $("#batch_destroy").click(function () {
+    var upload_file_ids = [];
+    $.each($('.upload-file-checkbox:checked'), function () {
+      upload_file_ids.push($(this).val());
+    });
+
+    if (upload_file_ids.length > 0) {
+      $.ajax({
+        url: "batch_destroy_files",
+        method: 'POST',
+        dataType: 'json',
+        data: {upload_file_ids: upload_file_ids},
+        success: function(res) {
+          setTimeout(function(){
+            window.location.reload()
+          },2000);
+        },
+        error: function(error) {
+          alert(error);
+        }
+      })
+    } else {
+      alert('你没有勾选任何帐号!');
+      $("#batch_destroy").attr("href", "#")
+    }
+  })
+
   })
 </script>

@@ -1,12 +1,31 @@
 class UploadFilesController < ApplicationController
   # require 'fileutils'
   skip_before_action :authenticate_user!, :only => :download_file
-  before_action :find_account, only: [ :edit, :update,:destroy]
+
   def index
     @upload_files = UploadFile.all
 
   end
 
+  def destroy
+    @upload_file = UploadFile.find_by_id params[:id]
+    path_to_file = @upload_file&.file_path
+    File.delete(path_to_file) if path_to_file && File.exist?(path_to_file)
+    @upload_file.destroy
+    redirect_to upload_files_path, notice:"成功删除!"
+  end
+
+  def batch_destroy_files
+    @upload_files = UploadFile.where(id: params[:upload_file_ids].split(","))
+    @upload_files.destroy_all
+    respond_to do |format|
+      format.json{
+        render json: {
+          message: "成功"
+        }
+      }
+    end
+  end
 
   def new
     @upload_file = UploadFile.new

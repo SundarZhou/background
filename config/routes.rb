@@ -12,6 +12,7 @@ Rails.application.routes.draw do
     get "download_abnormals" => 'abnormals#download'
     post "batch_destroy" => 'accounts#batch_destroy'
     get "batch_destroy_ab" => 'abnormals#batch_destroy'
+    post "batch_destroy_files" => "upload_files#batch_destroy_files"
     post "destroy_informations" => 'informations#batch_destroy'
     post "batch_update" => 'informations#batch_update'
     resources :accounts
