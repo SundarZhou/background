@@ -1,6 +1,6 @@
 class UploadFilesController < ApplicationController
   # require 'fileutils'
-  skip_before_action :authenticate_user!, :only => :download_file
+  skip_before_action :authenticate_user!, :only => [:download_file, :download_txt_file]
 
   def index
     @upload_files = params[:type] != 'txt' ? UploadFile.plist : UploadFile.txt
