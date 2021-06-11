@@ -37,4 +37,5 @@ Rails.application.routes.draw do
   get "get_platform" => "platforms#get_data"
   get "update_platform" => "platforms#update_data"
   get "download_file" => "upload_files#download_file"
+  get "download_txt_file" => "upload_files#download_txt_file"
 end

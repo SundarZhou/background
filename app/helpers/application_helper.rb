@@ -52,7 +52,8 @@ module ApplicationHelper
       ]
     elsif ["upload_files"].include? controller_name
       nav_html = %Q[
-        <li class="#{'active' if controller_name == 'upload_files'}">#{link_to "导入文件", upload_files_path}</li>
+        <li class="#{'active' if controller_name == 'upload_files' && (params[:type] != "txt")}">#{link_to "上传系统文件", upload_files_path}</li>
+        <li class="#{'active' if controller_name == 'upload_files' && (params[:type] == "txt")}">#{link_to "上传脚本配置文件", upload_files_path(type: "txt")}</li>
       ]
     else controller_name == 'dashboard'
       nav_html = %Q[

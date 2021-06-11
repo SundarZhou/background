@@ -1,16 +1,18 @@
-<% provide(:title, "导入文件") %>
-<h1 class="page-header">导入文件</h1>
+<% title =  params[:type] != "txt" ? "系统文件" : "脚本配置文件" %>
+<% provide(:title, title) %>
+<h1 class="page-header"><%= title %></h1>
 <div class="table-responsive">
-  <%= link_to '导入文件', new_upload_file_path, class: 'btn btn-success floatLeft' %>
-
-  <div class="testswitch">
-    <input class="testswitch-checkbox" id="onoffswitch" type="checkbox" data-checked="<%= Setting.first.file_switch %>" >
-    <label class="testswitch-label" for="onoffswitch">
-      <span class="testswitch-inner" data-on="ON" data-off="OFF"></span>
-      <span class="testswitch-switch"></span>
-    </label>
-  </div>
-  <h4 class="tips">当前不能获取文件</h4>
+  <%= link_to "上传#{title}", new_upload_file_path(type: params[:type]), class: 'btn btn-success floatLeft' %>
+  <% if params[:type] != "txt" %>
+    <div class="testswitch">
+      <input class="testswitch-checkbox" id="onoffswitch" type="checkbox" data-checked="<%= Setting.first.file_switch %>" >
+      <label class="testswitch-label" for="onoffswitch">
+        <span class="testswitch-inner" data-on="ON" data-off="OFF"></span>
+        <span class="testswitch-switch"></span>
+      </label>
+    </div>
+    <h4 class="tips">当前不能获取文件</h4>
+  <% end %>
 </div>
 <hr>
 
@@ -33,8 +35,6 @@
         <%= link_to 'javascript::void(0)', :data => {:toggle => :checkboxes, :action => :toggle, :range => 'true'} do %>
           <i class="glyphicon glyphicon-refresh text-warning"> </i>反选
         <% end %>
-
-        <span> / </span>
 
         <%= link_to "javascript:void(0)", id: 'downloads', target: '_blank', class: "hide"  do %>
           <i class="glyphicon glyphicon-download-alt text-primary"> </i>导出？

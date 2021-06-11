@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_19_125548) do
+ActiveRecord::Schema.define(version: 2021_06_11_104207) do
 
   create_table "abnormals", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "phone", null: false
@@ -79,6 +79,7 @@ ActiveRecord::Schema.define(version: 2021_05_19_125548) do
     t.string "file_path"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "file_type", default: 0
   end
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
