@@ -91,6 +91,8 @@
           <td class="text-danger">注册成功</td>
         <% elsif information.is_use == 1 %>
           <td class="text-info">待修改</td>
+        <% elsif information.is_use == 3 %>
+          <td class="text-info">验证中</td>
         <% else %>
            <td class="text-success">未使用</td>
         <% end %>
