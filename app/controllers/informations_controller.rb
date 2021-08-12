@@ -118,7 +118,7 @@ class InformationsController < ApplicationController
               message: "等待开启数据获取"
             }
           elsif @information.present?
-            @information.update(is_use: (validation ? 3 : 1)
+            @information.update(is_use: (validation ? 3 : 1))
             {
               code: 200,
               data: {id: @information.id, account: @information.account, link: @information.link, status: true },
