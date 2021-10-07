@@ -70,13 +70,16 @@
   </div>
   <hr>
   <h3>数据总量：<%= @informations.count %></h3>
+  <% if params[:new_import].present? %>
+    <h3>成功数据总量：<%= @informations.where(is_use: 2).count %></h3>
+  <% end %>
   <hr>
   <table class="table table-hover table-responsive">
     <thead>
       <tr>
         <th width="5%"></th>
-        <th width="15%"><%= params[:new_import].present? ? "Phone" : "帐号" %></th>
-        <th width="50%"><%= params[:new_import].present? ? "Password" : "链接" %></th>
+        <th width="15%"> 帐号</th>
+        <th width="50%"><%= params[:new_import].present? ? "密码" : "链接" %></th>
         <th width="10%">状态</th>
         <th width="20%">操作</th>
       </tr>

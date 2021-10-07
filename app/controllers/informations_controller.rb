@@ -47,8 +47,9 @@ class InformationsController < ApplicationController
   end
 
   def destroy
+    link = @data.phone.present? ? informations_path(new_import: true) : informations_path
     @data.destroy
-    redirect_to informations_path, notice:"成功删除!"
+    redirect_to link, notice:"成功删除!"
   end
 
   def information_download
@@ -172,7 +173,7 @@ class InformationsController < ApplicationController
   def check
     @arr = ["未使用", "二维码获取成功", "完成", "使用中"]
     @data = Information.find_by_id(params[:id])
-    if @data.present?
+    rep = if @data.present?
         {
           code: 200,
           message: @arr[@data.is_use]
