@@ -1,18 +1,23 @@
-<% provide(:title, "导入数据") %>
-<h1 class="page-header">导入数据</h1>
-<div class="table-responsive">
-  <%= link_to '导入数据', new_information_path, class: 'btn btn-success floatLeft' %>
+<% title = params[:new_import].present? ? "获取二维码帐号列表" : "导入数据"  %>
+<% del_title = params[:new_import].present? ? "获取二维码帐号成功帐号删除" : "注册成功帐号删除"  %>
+<% provide(:title, title) %>
+<h1 class="page-header"><%= title %></h1>
 
-  <div class="testswitch">
-    <input class="testswitch-checkbox" id="onoffswitch" type="checkbox" data-checked="<%= Setting.first.switch %>" >
-    <label class="testswitch-label" for="onoffswitch">
-      <span class="testswitch-inner" data-on="ON" data-off="OFF"></span>
-      <span class="testswitch-switch"></span>
-    </label>
+<% unless params[:new_import].present? %>
+  <div class="table-responsive">
+    <%= link_to title, new_information_path, class: 'btn btn-success floatLeft' %>
+
+    <div class="testswitch">
+      <input class="testswitch-checkbox" id="onoffswitch" type="checkbox" data-checked="<%= Setting.first.switch %>" >
+      <label class="testswitch-label" for="onoffswitch">
+        <span class="testswitch-inner" data-on="ON" data-off="OFF"></span>
+        <span class="testswitch-switch"></span>
+      </label>
+    </div>
+    <h4 class="tips">当前不能获取数据</h4>
   </div>
-  <h4 class="tips">当前不能获取数据</h4>
-</div>
-<hr>
+  <hr>
+<% end %>
 <% if @informations.any? %>
   <div class="row-fluid">
     <div class="span6">
@@ -70,39 +75,67 @@
     <thead>
       <tr>
         <th width="5%"></th>
-        <th width="15%">帐号</th>
-        <th width="50%">链接</th>
+        <th width="15%"><%= params[:new_import].present? ? "Phone" : "帐号" %></th>
+        <th width="50%"><%= params[:new_import].present? ? "Password" : "链接" %></th>
         <th width="10%">状态</th>
         <th width="20%">操作</th>
       </tr>
     </thead>
     <tbody>
       <% @informations.each do |information| %>
-      <tr>
-        <td>
-          <label>
-            <%= check_box_tag "information_ids[#{information.id}]", information.id, false, :class => 'ace ace-checkbox-1 information-checkbox' %>
-            <span class="lbl"> </span>
-          </label>
-        </td>
-        <td><%= information.account %></td>
-        <td class="hidden_text"><%= information.link %></td>
-        <% if information.is_use == 2 %>
-          <td class="text-primary">注册成功</td>
-        <% elsif information.is_use == 1 %>
-          <td class="text-info">待修改</td>
-        <% elsif information.is_use == 3 %>
-          <td class="text-danger">验证中</td>
+        <% if params[:new_import].nil? %>
+          <tr>
+            <td>
+              <label>
+                <%= check_box_tag "information_ids[#{information.id}]", information.id, false, :class => 'ace ace-checkbox-1 information-checkbox' %>
+                <span class="lbl"> </span>
+              </label>
+            </td>
+            <td><%= information.account %></td>
+            <td class="hidden_text"><%= information.link %></td>
+            <% if information.is_use == 2 %>
+              <td class="text-primary">注册成功</td>
+            <% elsif information.is_use == 1 %>
+              <td class="text-info">待修改</td>
+            <% elsif information.is_use == 3 %>
+              <td class="text-danger">验证中</td>
+            <% else %>
+              <td class="text-success">未使用</td>
+            <% end %>
+            <td>
+              <%= link_to '改为未使用', information_path(information), class: 'btn btn-info', method: :put %>
+              <%= link_to '删除', information_path(information), class: 'btn btn-danger', data:{confirm: '确定删除吗?'}, method: :delete %>
+
+            </td>
+
+          </tr>
         <% else %>
-           <td class="text-success">未使用</td>
+          <tr>
+            <td>
+              <label>
+                <%= check_box_tag "information_ids[#{information.id}]", information.id, false, :class => 'ace ace-checkbox-1 information-checkbox' %>
+                <span class="lbl"> </span>
+              </label>
+            </td>
+            <td><%= information.phone %></td>
+            <td class="hidden_text"><%= information.password %></td>
+            <% if information.is_use == 2 %>
+              <td class="text-primary">完成</td>
+            <% elsif information.is_use == 1 %>
+              <td class="text-info">二维码获取成功</td>
+            <% elsif information.is_use == 3 %>
+              <td class="text-danger">使用中</td>
+            <% else %>
+              <td class="text-success">未使用</td>
+            <% end %>
+            <td>
+              <%= link_to '改为未使用', information_path(information, new_import: true), class: 'btn btn-info', method: :put %>
+              <%= link_to '删除', information_path(information), class: 'btn btn-danger', data:{confirm: '确定删除吗?'}, method: :delete %>
+
+            </td>
+
+          </tr>
         <% end %>
-        <td>
-          <%= link_to '改为未使用', information_path(information), class: 'btn btn-info', method: :put %>
-          <%= link_to '删除', information_path(information), class: 'btn btn-danger', data:{confirm: '确定删除吗?'}, method: :delete %>
-
-        </td>
-
-      </tr>
       <% end %>
     </tbody>
   </table>

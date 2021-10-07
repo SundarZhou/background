@@ -29,6 +29,9 @@ Rails.application.routes.draw do
     get "download_files" => "upload_files#download_files"
   end
   get "import_data" => 'accounts#import_data'
+  get "new_import_data" => 'informations#import_data'
+  get "new_get_data" => "informations#new_get_data"
+  get "new_update_data" => "informations#new_update_data"
   get "get_data" => "informations#get_data"
   get "update_data" => "informations#update_data"
   get "import_abnormal" => "abnormals#import"

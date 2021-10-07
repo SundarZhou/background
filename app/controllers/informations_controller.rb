@@ -1,8 +1,12 @@
 class InformationsController < ApplicationController
-  skip_before_action :authenticate_user!, :only => [:get_data, :update_data]
+  skip_before_action :authenticate_user!, :only => [:get_data, :update_data,:import_data, :new_get_data, :new_update_data, :check]
   before_action :find_data, only: [ :edit, :update,:destroy]
   def index
-    @informations = Information.all
+    @informations = if params[:new_import]
+                      Information.where(account: nil)
+                    else
+                      Information.where(phone: nil)
+                    end
   end
 
   def new
@@ -144,6 +148,7 @@ class InformationsController < ApplicationController
   def update_data
     @data = Information.find_by_id(params[:id])
     rep = if @data.present?
+
             if @data.update(is_use: 2)
               {
                 code: 200,
@@ -164,13 +169,99 @@ class InformationsController < ApplicationController
     render :json => rep
   end
 
+  def check
+    @arr = ["未使用", "二维码获取成功", "完成", "使用中"]
+    @data = Information.find_by_id(params[:id])
+    if @data.present?
+        {
+          code: 200,
+          message: @arr[@data.is_use]
+        }
+    else
+      {
+        code: 404,
+        message: "数据不存在"
+      }
+    end
+render :json => rep
+  end
+
+  def new_get_data
+
+    @information = Information.where(is_use: 0, account: nil).first
+
+    begin
+
+      rep = if @information.present?
+            @information.update(is_use: 3)
+            {
+              code: 200,
+              data: {id: @information.id, phone: @information.phone, password: @information.password, status: true },
+              message: "返回成功！"
+            }
+          else
+            {
+              code: 200,
+              data: {status: false},
+              message: "没有可用数据"
+            }
+          end
+    rescue Exception => e
+      {
+        code: 404,
+        data: {status: false},
+        message: e
+      }
+    end
+    render :json => rep
+  end
+
+  def new_update_data
+    @data = Information.find_by_id(params[:id])
+    rep = if @data.present?
+            is_use = params[:success].present? ? 2 : 1
+            if @data.update(is_use: is_use)
+              {
+                code: 200,
+                message: "更新成功:#{params[:success].present? ? '完成' : '(二维码获取成功'}"
+              }
+            else
+              {
+                code: 404,
+                message: @data.errors.full_messages.to_sentence
+              }
+            end
+          else
+            {
+              code: 404,
+              message: "数据不存在"
+            }
+          end
+    render :json => rep
+  end
+
+
   def update
     @data = Information.find(params[:id])
+    link = @data.phone.present? ? informations_path(new_import: true) : informations_path
     if @data.update(is_use: 0)
-      redirect_to informations_path, notice: "更新成功!"
+      redirect_to link, notice: "更新成功!"
     else
-      redirect_to informations_path, alert: @data.errors.full_messages.to_sentence
+      redirect_to link, alert: @data.errors.full_messages.to_sentence
     end
+  end
+
+  def import_data
+    phone = params[:phone]
+    password = params[:password]
+
+    @information = Information.new(phone: phone, password: password)
+    rep = if @information.save
+            { code: 200, message: "上传成功", data: {id: @information.id}}
+          else
+            { code: 404, message: @information.errors.full_messages.to_sentence}
+          end
+    render :json => rep
   end
 
   private
