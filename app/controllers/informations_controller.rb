@@ -77,7 +77,7 @@ class InformationsController < ApplicationController
   end
 
   def batch_destroy
-    @informations = Information.where(id: params[:information_ids].split(","))
+    @informations = Information.where(id: params[:information_ids])
     @informations.destroy_all
     respond_to do |format|
       format.json{
@@ -89,7 +89,7 @@ class InformationsController < ApplicationController
   end
 
   def batch_update
-    @informations = Information.where(id: params[:information_ids].split(",")).where(is_use: 1)
+    @informations = Information.where(id: params[:information_ids])
     @informations.update_all(is_use: 0)
     respond_to do |format|
       format.json{
