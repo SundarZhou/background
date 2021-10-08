@@ -56,10 +56,16 @@ class InformationsController < ApplicationController
     @informations = Information.where(id: params[:information_ids].split(","))
 
     output = ''
-
-    @informations.pluck(:account, :link ).each do |information|
-      output << information.join("----")
-      output << "\n"
+    if params[:new_import].present?
+      @informations.pluck(:phone, :password ).each do |information|
+        output << information.join("----")
+        output << "\n"
+      end
+    else
+      @informations.pluck(:account, :link ).each do |information|
+        output << information.join("----")
+        output << "\n"
+      end
     end
     path = "#{Rails.root}/log/informations-#{Time.now.strftime('%Y-%m-%d-%H-%M-%S')}.txt"
     file = File.open(path, 'a')
@@ -108,11 +114,13 @@ class InformationsController < ApplicationController
   def delete_success
     if params[:new_import].present?
       Information.where(is_use: 2, account: nil).destroy_all
+      @link = informations_path(new_import: true)
     else
       Information.where(is_use: 2, phone: nil).destroy_all
+      @link = informations_path
     end
-    # Information.update(is_use: 1)
-    redirect_to informations_path, notice:"批量操作成功!"
+
+    redirect_to @link, notice:"批量操作成功!"
   end
 
   def get_data

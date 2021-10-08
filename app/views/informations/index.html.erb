@@ -133,7 +133,7 @@
             <% end %>
             <td>
               <%= link_to '改为未使用', information_path(information, new_import: true), class: 'btn btn-info', method: :put %>
-              <%= link_to '删除', information_path(information), class: 'btn btn-danger', data:{confirm: '确定删除吗?'}, method: :delete %>
+              <%= link_to '删除', information_path(information, new_import: true), class: 'btn btn-danger', data:{confirm: '确定删除吗?'}, method: :delete %>
 
             </td>
 
@@ -176,7 +176,7 @@
         url: "information_download",
         method: 'POST',
         dataType: 'json',
-        data: {information_ids: information_ids},
+        data: {information_ids: information_ids, new_import: "<%= params[:new_import] %>"},
         success: function(res) {
           $("#downloads").attr("href", "get_file?path=" + res.path)
           $("#downloads").append("<span></span>");
