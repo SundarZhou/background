@@ -113,9 +113,9 @@ class InformationsController < ApplicationController
 
   def get_data
     if (validation = params[:validation].present?)
-      @information = Information.where(is_use: 1).first
+      @information = Information.where(is_use: 1, phone: nil).first
     else
-      @information = Information.where(is_use: 0).first
+      @information = Information.where(is_use: 0, phone: nil).first
     end
 
     begin
