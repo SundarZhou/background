@@ -89,7 +89,11 @@ class InformationsController < ApplicationController
   end
 
   def batch_update
-    @informations = Information.where(id: params[:information_ids])
+    if params[:new_import].present?
+      @informations = Information.where(id: params[:information_ids]).where.not(is_use: 2)
+    else
+      @informations = Information.where(id: params[:information_ids]).where(is_use: 1)
+    end
     @informations.update_all(is_use: 0)
     respond_to do |format|
       format.json{

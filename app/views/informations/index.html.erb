@@ -232,7 +232,7 @@
         url: "batch_update",
         method: 'POST',
         dataType: 'json',
-        data: {information_ids: information_ids},
+        data: {information_ids: information_ids, new_import: "<%= params[:new_import] %>"},
         success: function(res) {
           alert(res.message)
           setTimeout(function(){
