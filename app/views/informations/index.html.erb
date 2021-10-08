@@ -62,7 +62,7 @@
 
         <span> / </span>
 
-        <%= link_to delete_success_path, id: 'delete_success' do %>
+        <%= link_to delete_success_path(new_import: params[:new_import]), id: 'delete_success' do %>
           <i class="glyphicon glyphicon-download-alt text-primary"> </i>注册成功帐号删除
         <% end %>
       </p>

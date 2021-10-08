@@ -2,7 +2,7 @@ class InformationsController < ApplicationController
   skip_before_action :authenticate_user!, :only => [:get_data, :update_data,:import_data, :new_get_data, :new_update_data, :check]
   before_action :find_data, only: [ :edit, :update,:destroy]
   def index
-    @informations = if params[:new_import]
+    @informations = if params[:new_import].present?
                       Information.where(account: nil)
                     else
                       Information.where(phone: nil)
@@ -102,7 +102,11 @@ class InformationsController < ApplicationController
   end
 
   def delete_success
-    Information.where(is_use: 2).destroy_all
+    if params[:new_import].present?
+      Information.where(is_use: 2, account: nil).destroy_all
+    else
+      Information.where(is_use: 2, phone: nil).destroy_all
+    end
     # Information.update(is_use: 1)
     redirect_to informations_path, notice:"批量操作成功!"
   end
