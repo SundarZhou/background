@@ -224,7 +224,7 @@ render :json => rep
             if @data.update(is_use: is_use)
               {
                 code: 200,
-                message: "更新成功:#{params[:success].present? ? '完成' : '(二维码获取成功'}"
+                message: "更新成功:#{params[:success].present? ? '完成' : '二维码获取成功'}"
               }
             else
               {

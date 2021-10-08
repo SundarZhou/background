@@ -24,7 +24,7 @@ class AbnormalsController < ApplicationController
   end
 
   def download
-    @abnormals = Abnormal.where(id: params[:abnormal_ids].split(","))
+    @abnormals = Abnormal.where(id: params[:abnormal_ids])
 
 
     output = ''
@@ -40,7 +40,7 @@ class AbnormalsController < ApplicationController
   end
 
   def batch_destroy
-    @abnormals = Abnormal.where(id: params[:abnormal_ids].split(","))
+    @abnormals = Abnormal.where(id: params[:abnormal_ids])
     @abnormals.destroy_all
     redirect_to abnormals_path, notice:"批量删除成功!"
   end
