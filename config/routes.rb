@@ -11,7 +11,7 @@ Rails.application.routes.draw do
     get "get_file" => 'accounts#get_file'
     get "download_abnormals" => 'abnormals#download'
     post "batch_destroy" => 'accounts#batch_destroy'
-    get "batch_destroy_ab" => 'abnormals#batch_destroy'
+    post "batch_destroy_ab" => 'abnormals#batch_destroy'
     post "batch_destroy_files" => "upload_files#batch_destroy_files"
     post "destroy_informations" => 'informations#batch_destroy'
     post "batch_update" => 'informations#batch_update'
@@ -19,8 +19,8 @@ Rails.application.routes.draw do
     resources :informations
     resources :abnormals
     resources :platforms
-    get "destroy_platforms" => 'platforms#batch_destroy'
-    get "batch_update_platforms" => 'platforms#batch_update'
+    post "destroy_platforms" => 'platforms#batch_destroy'
+    post "batch_update_platforms" => 'platforms#batch_update'
     resources :download_logs, :import_logs
     get "delete_success" => "informations#delete_success"
     get "toggle_switch" => "setting#toggle_switch"

@@ -13,13 +13,25 @@ class PlatformsController < ApplicationController
   def batch_destroy
     @platform = Platform.where(id: params[:platform_ids])
     @platform.destroy_all
-    redirect_to platforms_path, notice:"批量删除成功!"
+    respond_to do |format|
+      format.json{
+        render json: {
+          message: "成功"
+        }
+      }
+    end
   end
 
   def batch_update
     @platform = Platform.where(id: params[:platform_ids]).where(is_use: 1)
     @platform.update_all(is_use: 0)
-    redirect_to platforms_path, notice:"待修改数据批量修改成功!"
+    respond_to do |format|
+      format.json{
+        render json: {
+          message: "待修改数据批量修改成功!"
+        }
+      }
+    end
   end
 
    def import

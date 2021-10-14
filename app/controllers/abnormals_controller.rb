@@ -42,7 +42,13 @@ class AbnormalsController < ApplicationController
   def batch_destroy
     @abnormals = Abnormal.where(id: params[:abnormal_ids])
     @abnormals.destroy_all
-    redirect_to abnormals_path, notice:"批量删除成功!"
+    respond_to do |format|
+      format.json{
+        render json: {
+          message: "成功"
+        }
+      }
+    end
   end
 
   private

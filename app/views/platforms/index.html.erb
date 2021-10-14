@@ -107,10 +107,20 @@
     });
 
     if (platform_ids.length > 0) {
-      $("#batch_destroy").attr("href", "destroy_platforms?platform_ids="+platform_ids)
-      setTimeout(function(){
-        window.location.reload()
-      },2000);
+      $.ajax({
+        url: "destroy_platforms",
+        method: 'POST',
+        dataType: 'json',
+        data: {platform_ids: platform_ids},
+        success: function(res) {
+          setTimeout(function(){
+            window.location.reload()
+          },2000);
+        },
+        error: function(error) {
+          alert(error);
+        }
+      })
     } else {
       alert('你没有勾选任何帐号!');
       $("#batch_destroy").attr("href", "#")
@@ -124,10 +134,21 @@
     });
 
     if (platform_ids.length > 0) {
-      $("#batch").attr("href", "batch_update_platforms?platform_ids="+platform_ids)
-      setTimeout(function(){
-        window.location.reload()
-      },2000);
+      $.ajax({
+        url: "batch_update_platforms",
+        method: 'POST',
+        dataType: 'json',
+        data: {platform_ids: platform_ids, new_import: "<%= params[:new_import] %>"},
+        success: function(res) {
+          alert(res.message)
+          setTimeout(function(){
+            window.location.reload()
+          },2000);
+        },
+        error: function(error) {
+          alert(error);
+        }
+      })
     } else {
       alert('你没有勾选任何帐号!');
       $("#batch").attr("href", "#")

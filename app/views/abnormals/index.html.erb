@@ -116,10 +116,20 @@
     });
 
     if (abnormal_ids.length > 0) {
-      $("#batch_destroy").attr("href", "batch_destroy_ab?abnormal_ids="+abnormal_ids)
-      setTimeout(function(){
-        window.location.reload()
-      },2000);
+      $.ajax({
+        url: "batch_destroy_ab",
+        method: 'POST',
+        dataType: 'json',
+        data: {abnormal_ids: abnormal_ids},
+        success: function(res) {
+          setTimeout(function(){
+            window.location.reload()
+          },2000);
+        },
+        error: function(error) {
+          alert(error);
+        }
+      })
     } else {
       alert('你没有勾选任何帐号!');
       $("#batch_destroy").attr("href", "#")
