@@ -3,7 +3,7 @@ class SettingController < ApplicationController
   end
 
   def toggle_switch
-    Setting.first.toggle
+    params[:list2] ? Setting.first.list_toggle : Setting.first.toggle
   end
 
   def toggle_file_switch

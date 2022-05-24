@@ -9,7 +9,7 @@
     <%= link_to title, new_information_path(list2: params[:list2]), class: 'btn btn-success floatLeft' %>
 
     <div class="testswitch">
-      <input class="testswitch-checkbox" id="onoffswitch" type="checkbox" data-checked="<%= Setting.first.switch %>" >
+      <input class="testswitch-checkbox" id="onoffswitch" type="checkbox" data-checked="<%= params[:list2] ? Setting.first.list_switch : Setting.first.switch %>" >
       <label class="testswitch-label" for="onoffswitch">
         <span class="testswitch-inner" data-on="ON" data-off="OFF"></span>
         <span class="testswitch-switch"></span>
@@ -257,7 +257,7 @@ $(document).ready(function() {
   }
   $("#onoffswitch").on('click', function(){
 		clickSwitch()
-    $.get("toggle_switch")
+    $.get("toggle_switch<%= params[:list2] ?  '?list2=true' : '' %>")
 	});
 
 	var clickSwitch = function() {

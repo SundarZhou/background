@@ -134,7 +134,7 @@ class InformationsController < ApplicationController
 
     begin
 
-      rep = if !Setting.first.switch
+      rep = if !(params[:list2] ? Setting.first.list_switch : Setting.first.switch)
             {
               code: 200,
               data: {status: false},
