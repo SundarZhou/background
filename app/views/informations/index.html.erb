@@ -1,11 +1,12 @@
 <% title = params[:new_import].present? ? "获取二维码帐号列表" : "导入数据"  %>
+<% title = params[:list2] ? "导入数据2" : title %>
 <% del_title = params[:new_import].present? ? "获取二维码帐号成功帐号删除" : "注册成功帐号删除"  %>
 <% provide(:title, title) %>
 <h1 class="page-header"><%= title %></h1>
 
 <% unless params[:new_import].present? %>
   <div class="table-responsive">
-    <%= link_to title, new_information_path, class: 'btn btn-success floatLeft' %>
+    <%= link_to title, new_information_path(list2: params[:list2]), class: 'btn btn-success floatLeft' %>
 
     <div class="testswitch">
       <input class="testswitch-checkbox" id="onoffswitch" type="checkbox" data-checked="<%= Setting.first.switch %>" >

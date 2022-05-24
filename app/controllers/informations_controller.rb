@@ -7,6 +7,7 @@ class InformationsController < ApplicationController
                     else
                       Information.where(phone: nil)
                     end
+    @informations = params[:list2] ? @informations.list2 :  @informations.default
   end
 
   def new
@@ -16,13 +17,14 @@ class InformationsController < ApplicationController
   def create
     @information = Information.new
     errors = []
+    list_num = params[:list2] ? 2 : 1
     if params[:tasks_file].present?
       file = params[:tasks_file]
       if file.original_filename.split('.').last == 'txt'
         datas = []
         File.open(file.path).each do |line|
           account, link = line.split("----")
-          datas << {account: account, link: link.chomp} if account.present? && link.present?
+          datas << {account: account, link: link.chomp, list_num: list_num} if account.present? && link.present?
         end
         if datas.present?
           begin
@@ -30,24 +32,24 @@ class InformationsController < ApplicationController
               Information.import datas
             end
           rescue Exception => e
-            redirect_to informations_path, notice: e
+            redirect_to informations_path(list2: params[:list2]), notice: e
           end
 
-          redirect_to informations_path, notice: "上传成功！"
+          redirect_to informations_path(list2: params[:list2]), notice: "上传成功！"
         else
-          redirect_to informations_path, notice: "没有数据"
+          redirect_to informations_path(list2: params[:list2]), notice: "没有数据"
         end
 
       else
-        redirect_to informations_path, notice: "约定好的文件格式为 XXX.txt"
+        redirect_to informations_path(list2: params[:list2]), notice: "约定好的文件格式为 XXX.txt"
       end
     else
-      redirect_to informations_path, notice: "上传有误，请检查数据重新上传！"
+      redirect_to informations_path(list2: params[:list2]), notice: "上传有误，请检查数据重新上传！"
     end
   end
 
   def destroy
-    link = @data.phone.present? ? informations_path(new_import: true) : informations_path
+    link = @data.phone.present? ? informations_path(new_import: true) : informations_path(list2: @data.list_num == 2 ? true : nil)
     @data.destroy
     redirect_to link, notice:"成功删除!"
   end
@@ -125,9 +127,9 @@ class InformationsController < ApplicationController
 
   def get_data
     if (validation = params[:validation].present?)
-      @information = Information.where(is_use: 1, phone: nil).first
+      @information = Information.where(is_use: 1, phone: nil, list_num:( params[:list2] ? 2 : 1)).first
     else
-      @information = Information.where(is_use: 0, phone: nil).first
+      @information = Information.where(is_use: 0, phone: nil, list_num:( params[:list2] ? 2 : 1)).first
     end
 
     begin
@@ -260,7 +262,7 @@ render :json => rep
 
   def update
     @data = Information.find(params[:id])
-    link = @data.phone.present? ? informations_path(new_import: true) : informations_path
+    link = @data.phone.present? ? informations_path(new_import: true) : informations_path(list2: @data.list_num == 2 ? true : nil)
     if @data.update(is_use: 0)
       redirect_to link, notice: "更新成功!"
     else
