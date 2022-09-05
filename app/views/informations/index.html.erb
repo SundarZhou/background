@@ -5,17 +5,34 @@
 <h1 class="page-header"><%= title %></h1>
 
 <% unless params[:new_import].present? %>
-  <div class="table-responsive">
+  <div class="table-responsive" >
     <%= link_to title, new_information_path(list2: params[:list2]), class: 'btn btn-success floatLeft' %>
 
-    <div class="testswitch">
+    <div class="testswitch floatLeft" >
       <input class="testswitch-checkbox" id="onoffswitch" type="checkbox" data-checked="<%= params[:list2] ? Setting.first.list_switch : Setting.first.switch %>" >
       <label class="testswitch-label" for="onoffswitch">
         <span class="testswitch-inner" data-on="ON" data-off="OFF"></span>
         <span class="testswitch-switch"></span>
       </label>
     </div>
-    <h4 class="tips">当前不能获取数据</h4>
+    <div class="floatLeft">
+      <h4 class="tips floatLeft">当前不能获取数据</h4>
+    </div>
+    <div class="floatLeft">
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </div>
+    <% unless params[:list2] %>
+      <div class="testswitch floatLeft">
+        <input class="testswitch-checkbox" id="nonoffswitch" type="checkbox" data-checked="<%= Setting.first.privacy_policy %>" >
+        <label class="testswitch-label" for="nonoffswitch">
+          <span class="testswitch-inner" data-on="ON" data-off="OFF"></span>
+          <span class="testswitch-switch"></span>
+        </label>
+      </div>
+      <div class="floatLeft">
+        <h4>隐秘政策等待</h4>
+      </div>
+    <% end %>
   </div>
   <hr>
 <% end %>
@@ -258,6 +275,14 @@ $(document).ready(function() {
   $("#onoffswitch").on('click', function(){
 		clickSwitch()
     $.get("toggle_switch<%= params[:list2] ?  '?list2=true' : '' %>")
+	});
+
+
+  if($("#nonoffswitch").data("checked")){
+    $("#nonoffswitch").prop('checked', true)
+  }
+  $("#nonoffswitch").on('click', function(){
+    $.get("toggle_switch?privacy_policy=true")
 	});
 
 	var clickSwitch = function() {

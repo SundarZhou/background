@@ -98,6 +98,10 @@ class AccountsController < ApplicationController
     render :json => rep
   end
 
+  def privacy_policy_setting
+    render :json => { code: 200, message: Setting.last.privacy_policy}
+  end
+
   private
   def find_account
     @account = Account.find(params[:id])

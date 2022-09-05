@@ -10,4 +10,8 @@ class Setting < ApplicationRecord
   def toggle_file_switch
     update(file_switch: !file_switch)
   end
+
+  def privacy_policy_toggle
+    update(privacy_policy: !privacy_policy)
+  end
 end

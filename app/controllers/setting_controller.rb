@@ -3,7 +3,13 @@ class SettingController < ApplicationController
   end
 
   def toggle_switch
-    params[:list2] ? Setting.first.list_toggle : Setting.first.toggle
+    if params[:privacy_policy]
+      Setting.first.privacy_policy_toggle
+    elsif params[:list2]
+      Setting.first.list_toggle
+    else
+      Setting.first.toggle
+    end
   end
 
   def toggle_file_switch
