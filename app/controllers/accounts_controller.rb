@@ -1,7 +1,7 @@
 class AccountsController < ApplicationController
   include ActionView::Rendering
   before_action :find_account, only: [ :edit, :update,:destroy]
-  skip_before_action :authenticate_user!, :only => [:import_data, :privacy_policy_setting]
+  skip_before_action :authenticate_user!, :only => [:import_data, :privacy_policy_setting, :wait_button_setting]
   def index
     @accounts = if params[:is_meng_gu].present?
                   Account.is_meng_gu
@@ -100,6 +100,10 @@ class AccountsController < ApplicationController
 
   def privacy_policy_setting
     render :json => { code: 200, privacy_policy_setting: Setting.last.privacy_policy}
+  end
+
+  def wait_button_setting
+    render :json => { code: 200, wait_button_setting: Setting.last.wait_button}
   end
 
   private

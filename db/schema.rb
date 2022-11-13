@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_09_05_121323) do
+ActiveRecord::Schema.define(version: 2022_11_13_061127) do
 
   create_table "abnormals", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "phone", null: false
@@ -57,7 +57,7 @@ ActiveRecord::Schema.define(version: 2022_09_05_121323) do
     t.datetime "updated_at", null: false
     t.string "phone"
     t.string "password"
-    t.integer "list_num", default: 1
+    t.integer "list_nums", default: 1
   end
 
   create_table "new_aaccounts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -85,6 +85,7 @@ ActiveRecord::Schema.define(version: 2022_09_05_121323) do
     t.boolean "file_switch", default: true
     t.boolean "list_switch", default: true
     t.boolean "privacy_policy", default: true
+    t.boolean "wait_button", default: true
   end
 
   create_table "upload_files", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|

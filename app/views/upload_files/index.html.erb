@@ -12,7 +12,17 @@
       </label>
     </div>
     <h4 class="tips">当前不能获取文件</h4>
+  <% else %>
+    <div class="testswitch">
+      <input class="testswitch-checkbox" id="nonoffswitch" type="checkbox" data-checked="<%= Setting.first.wait_button %>" >
+      <label class="testswitch-label" for="nonoffswitch">
+        <span class="testswitch-inner" data-on="ON" data-off="OFF"></span>
+        <span class="testswitch-switch"></span>
+      </label>
+    </div>
+    <h4 class="tips">获取验证码是否等待2分钟</h4>
   <% end %>
+
 </div>
 <hr>
 
@@ -106,6 +116,13 @@
       return false;
     });
 
+
+    if($("#nonoffswitch").data("checked")){
+      $("#nonoffswitch").prop('checked', true)
+    }
+    $("#nonoffswitch").on('click', function(){
+      $.get("toggle_switch?wait_button=true")
+    });
 
     if($("#onoffswitch").data("checked")){
       $("#onoffswitch").prop('checked', true)

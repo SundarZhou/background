@@ -7,6 +7,8 @@ class SettingController < ApplicationController
       Setting.first.privacy_policy_toggle
     elsif params[:list2]
       Setting.first.list_toggle
+    elsif params[:wait_button]
+      Setting.first.wait_button_toggle
     else
       Setting.first.toggle
     end

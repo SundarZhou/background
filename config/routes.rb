@@ -44,4 +44,5 @@ Rails.application.routes.draw do
   get "download_txt_file" => "upload_files#download_txt_file"
 
   get "privacy_policy_setting" => "accounts#privacy_policy_setting"
+  get "wait_button_setting" => "accounts#wait_button_setting"
 end

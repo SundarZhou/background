@@ -14,4 +14,8 @@ class Setting < ApplicationRecord
   def privacy_policy_toggle
     update(privacy_policy: !privacy_policy)
   end
+
+  def wait_button_toggle
+    update(wait_button: !wait_button)
+  end
 end
