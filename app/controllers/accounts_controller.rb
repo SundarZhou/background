@@ -122,9 +122,18 @@ class AccountsController < ApplicationController
       elsif @accounts.present?
         @accounts.update_all(is_got: true)
         data = @accounts.map do |account|
-          "#{account.phone}----#{account.password}----#{account.token&.split('----')&.first}"
+          {
+            id: account.id,
+            phone: account.phone,
+            password: account.password,
+            token: account.token&.split('----')&.first
+          }
         end
-        data.join("\n")
+        {
+              code: 200,
+              data: data,
+              message: "返回成功！"
+            }
       else
         {
               code: 200,
