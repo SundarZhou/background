@@ -9,6 +9,8 @@ class SettingController < ApplicationController
       Setting.first.list_toggle
     elsif params[:wait_button]
       Setting.first.wait_button_toggle
+    elsif params[:get_account_data]
+      Setting.first.get_account_data_toggle
     else
       Setting.first.toggle
     end

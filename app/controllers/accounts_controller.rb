@@ -1,7 +1,7 @@
 class AccountsController < ApplicationController
   include ActionView::Rendering
   before_action :find_account, only: [ :edit, :update,:destroy]
-  skip_before_action :authenticate_user!, :only => [:import_data, :privacy_policy_setting, :wait_button_setting]
+  skip_before_action :authenticate_user!, :only => [:import_data, :privacy_policy_setting, :wait_button_setting, :get_account, :get_account_data_setting]
   def index
     @accounts = if params[:is_meng_gu].present?
                   Account.is_meng_gu
@@ -102,8 +102,48 @@ class AccountsController < ApplicationController
     render :json => { code: 200, privacy_policy_setting: Setting.last.privacy_policy}
   end
 
+  def get_account_data_setting
+    render :json => { code: 200, get_account_data_setting: Setting.last.get_account_data_button}
+  end
+
   def wait_button_setting
     render :json => { code: 200, wait_button_setting: Setting.last.wait_button}
+  end
+
+  def get_account
+    @account = Account.first
+    begin
+      rep = if !Setting.first.get_account_data_button
+        {
+          code: 200,
+          data: {status: false},
+          message: "等待开启帐号获取"
+        }
+      elsif @account.present?
+        @account.update(is_got: true)
+        {
+              code: 200,
+              data: {id: @account.id, phone: @account.phone, token: @account.token, link: @account.link },
+              message: "返回成功！"
+            }
+      else
+        {
+              code: 200,
+              data: {status: false},
+              message: "没有可用数据"
+            }
+      end
+
+    rescue Exception => e
+      {
+        code: 404,
+        data: {status: false, error_message: e.message},
+        message: e
+      }
+    end
+    puts "sss"
+    puts rep
+    render :json => rep
   end
 
   private

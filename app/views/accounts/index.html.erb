@@ -3,6 +3,17 @@
 <% if @accounts.any? %>
 
   <div class="row-fluid">
+    <div class='span6'>
+       <div class="testswitch">
+          <input class="testswitch-checkbox" id="onoffswitch" type="checkbox" data-checked="<%= Setting.first.get_account_data_button %>" >
+          <label class="testswitch-label" for="onoffswitch">
+            <span class="testswitch-inner" data-on="ON" data-off="OFF"></span>
+            <span class="testswitch-switch"></span>
+          </label>
+        </div>
+        <h4 class="tips">当前可以获取帐号数据</h4>
+    </div>
+    <hr>
     <div class="span6">
       <p>
         <%= link_to 'javascript::void(0)', :data => {:toggle => :checkboxes, :action => :check, :range => 'true'} do %>
@@ -36,6 +47,7 @@
         <%= link_to "#", id: 'batch_destroy' do %>
           <i class="glyphicon glyphicon-trash text-primary"> </i>删除选中
         <% end %>
+
       </p>
     </div>
   </div>
@@ -164,5 +176,22 @@
     }
   })
 
+  if($("#onoffswitch").data("checked")){
+      $("#onoffswitch").prop('checked', true)
+      $('.tips').text("当前可以获取文件")
+    }
+    $("#onoffswitch").on('click', function(){
+      clickSwitch()
+      $.get("toggle_switch?get_account_data=true")
+    });
 
+    var clickSwitch = function() {
+      if ($("#onoffswitch").is(':checked')) {
+        console.log("在ON的状态下");
+        $('.tips').text("当前可以获取帐号数据")
+      } else {
+        console.log("在OFF的状态下");
+        $('.tips').text("当前不可以获取帐号数据")
+      }
+    };
 </script>

@@ -45,4 +45,7 @@ Rails.application.routes.draw do
 
   get "privacy_policy_setting" => "accounts#privacy_policy_setting"
   get "wait_button_setting" => "accounts#wait_button_setting"
+
+  get "get_account" => "accounts#get_account"
+  get "get_account_data_setting" => "accounts#get_account_data_setting"
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_11_13_061127) do
+ActiveRecord::Schema.define(version: 2024_12_14_090605) do
 
   create_table "abnormals", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "phone", null: false
@@ -31,6 +31,7 @@ ActiveRecord::Schema.define(version: 2022_11_13_061127) do
     t.datetime "updated_at", null: false
     t.string "link"
     t.boolean "is_meng_gu", default: false
+    t.boolean "is_got", default: false
   end
 
   create_table "download_logs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -57,15 +58,7 @@ ActiveRecord::Schema.define(version: 2022_11_13_061127) do
     t.datetime "updated_at", null: false
     t.string "phone"
     t.string "password"
-    t.integer "list_nums", default: 1
-  end
-
-  create_table "new_aaccounts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.string "phone", null: false
-    t.string "password", null: false
-    t.integer "status", default: 0
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer "list_num", default: 1
   end
 
   create_table "platforms", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -86,6 +79,7 @@ ActiveRecord::Schema.define(version: 2022_11_13_061127) do
     t.boolean "list_switch", default: true
     t.boolean "privacy_policy", default: true
     t.boolean "wait_button", default: true
+    t.boolean "get_account_data_button", default: true
   end
 
   create_table "upload_files", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -94,7 +88,6 @@ ActiveRecord::Schema.define(version: 2022_11_13_061127) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "file_type", default: 0
-    t.boolean "is_new_import", default: false
   end
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|

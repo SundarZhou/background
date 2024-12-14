@@ -18,4 +18,8 @@ class Setting < ApplicationRecord
   def wait_button_toggle
     update(wait_button: !wait_button)
   end
+
+  def get_account_data_toggle
+    update(get_account_data_button: !get_account_data_button)
+  end
 end
