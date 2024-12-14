@@ -111,7 +111,7 @@ class AccountsController < ApplicationController
   end
 
   def get_account
-    @account = Account.first
+    @account = Account.where(is_normal: true, is_got: false).first
     begin
       rep = if !Setting.first.get_account_data_button
         {
