@@ -111,7 +111,7 @@ class AccountsController < ApplicationController
   end
 
   def get_account
-    @account = Account.where(is_normal: true, is_got: false).first
+    @account = Account.first
     begin
       rep = if !Setting.first.get_account_data_button
         {
@@ -123,7 +123,7 @@ class AccountsController < ApplicationController
         @account.update(is_got: true)
         {
               code: 200,
-              data: {id: @account.id, phone: @account.phone, token: @account.token, link: @account.link },
+              data: {id: @account.id, phone: @account.phone, password: @account.password, token: @account.token, link: @account.link },
               message: "返回成功！"
             }
       else
@@ -135,14 +135,12 @@ class AccountsController < ApplicationController
       end
 
     rescue Exception => e
-      {
+      rep = {
         code: 404,
         data: {status: false, error_message: e.message},
         message: e
       }
     end
-    puts "sss"
-    puts rep
     render :json => rep
   end
 

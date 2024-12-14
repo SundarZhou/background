@@ -155,7 +155,7 @@ class InformationsController < ApplicationController
             }
           end
     rescue Exception => e
-      {
+      rep = {
         code: 404,
         data: {status: false},
         message: e
