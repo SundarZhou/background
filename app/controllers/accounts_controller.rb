@@ -111,7 +111,7 @@ class AccountsController < ApplicationController
   end
 
   def get_account
-    @account = Account.first
+    @accounts = Account.where(is_normal: true, is_got: false)
     begin
       rep = if !Setting.first.get_account_data_button
         {
@@ -119,11 +119,14 @@ class AccountsController < ApplicationController
           data: {status: false},
           message: "等待开启帐号获取"
         }
-      elsif @account.present?
-        @account.update(is_got: true)
+      elsif @accounts.present?
+        @accounts.update_all(is_got: true)
+        data = @accounts.map do |account|
+          {id: account.id, phone: account.phone, password: account.password, token: account.token, link: account.link }
+        end
         {
               code: 200,
-              data: {id: @account.id, phone: @account.phone, password: @account.password, token: @account.token, link: @account.link },
+              data: data,
               message: "返回成功！"
             }
       else
