@@ -122,7 +122,13 @@ class AccountsController < ApplicationController
       elsif @accounts.present?
         @accounts.update_all(is_got: true)
         data = @accounts.map do |account|
-          {id: account.id, phone: account.phone, password: account.password, token: account.token, link: account.link }
+          {
+            id: account.id,
+            phone: account.phone,
+            password: account.password,
+            token: account.token&.split('----')&.first,
+            link: account.link
+          }
         end
         {
               code: 200,
